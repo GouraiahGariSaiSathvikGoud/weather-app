@@ -1,13 +1,9 @@
 import { useState, useCallback } from "react";
 
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-const BASE = "https://api.openweathermap.org/data/2.5";
+const BASE = "/api";
 
 async function request(endpoint, query) {
-  if (!API_KEY) {
-    throw new Error("Missing API key. Add VITE_WEATHER_API_KEY to your .env file and restart the dev server.");
-  }
-  const res = await fetch(`${BASE}/${endpoint}?${query}&appid=${API_KEY}&units=metric`);
+  const res = await fetch(`${BASE}/${endpoint}?${query}`);
   if (res.status === 404) throw new Error("City not found. Check the spelling and try again.");
   if (res.status === 401) throw new Error("API key is invalid or not active yet. New keys can take up to a couple of hours.");
   if (!res.ok) throw new Error("Something went wrong. Please try again.");
